@@ -1,6 +1,9 @@
 # Node dependencies
 node_modules/
 
+# Package
+package-lock.json
+
 # TypeScript build output
 dist/
 
