@@ -12,7 +12,7 @@ import cartRoutes from './routes/cart.routes';
 
 const app = express();
 
-/* ---------------- Redis Client ---------------- */
+// Redis Client
 const redisClient = createClient({
   url: process.env.REDIS_URL,
 });
@@ -22,13 +22,13 @@ redisClient.connect().catch(console.error);
 console.log('Connected to redis client');
 console.log('\nYou can access Redis Insight at: http://localhost:5540');
 
-/* ---------------- Session Store ---------------- */
+// Session Store
 const redisStore = new RedisStore({
   client: redisClient,
   prefix: 'sess:',
 });
 
-/* ---------------- Express Config ---------------- */
+// Express Config
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'views'));
 
@@ -41,14 +41,17 @@ app.use(
     secret: process.env.SESSION_SECRET as string,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+    },
   })
 );
 
-/* ---------------- Routes ---------------- */
+// Routes
 app.use('/', shopRoutes);
 app.use('/cart', cartRoutes);
 
-/* ---------------- Start Server ---------------- */
+// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at: http://localhost:${PORT}`);

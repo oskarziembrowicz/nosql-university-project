@@ -20,7 +20,7 @@ block content
           td #{item.quantity}
           td $#{item.total.toFixed(2)}
           td
-            form(action="/cart/remove" method="POST")
+            form(action=`/cart/${item.product.id}` method="DELETE")
               input(type="hidden" name="productId" value=item.product.id)
               button(type="submit") Remove
 
