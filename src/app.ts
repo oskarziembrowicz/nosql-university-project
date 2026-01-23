@@ -1,14 +1,14 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
-import express from "express";
-import session from "express-session";
-import RedisStore from "connect-redis";
-import { createClient } from "redis";
-import path from "path";
+import express from 'express';
+import session from 'express-session';
+import RedisStore from 'connect-redis';
+import { createClient } from 'redis';
+import path from 'path';
 
-import shopRoutes from "./routes/shop.routes";
-import cartRoutes from "./routes/cart.routes";
+import shopRoutes from './routes/shop.routes';
+import cartRoutes from './routes/cart.routes';
 
 const app = express();
 
@@ -19,18 +19,21 @@ const redisClient = createClient({
 
 redisClient.connect().catch(console.error);
 
+console.log('Connected to redis client');
+console.log('\nYou can access Redis Insight at: http://localhost:5540');
+
 /* ---------------- Session Store ---------------- */
 const redisStore = new RedisStore({
   client: redisClient,
-  prefix: "sess:",
+  prefix: 'sess:',
 });
 
 /* ---------------- Express Config ---------------- */
-app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "..", "views"));
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, '..', 'views'));
 
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(
   session({
@@ -42,11 +45,11 @@ app.use(
 );
 
 /* ---------------- Routes ---------------- */
-app.use("/", shopRoutes);
-app.use("/cart", cartRoutes);
+app.use('/', shopRoutes);
+app.use('/cart', cartRoutes);
 
 /* ---------------- Start Server ---------------- */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running at: http://localhost:${PORT}`);
 });
