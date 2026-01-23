@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  h1 Your Cart
+
+  if cartItems.length === 0
+    p Your cart is empty.
+    a(href="/") Back to shop
+  else
+    table
+      tr
+        th Product
+        th Quantity
+        th Price
+        th Actions
+
+      each item in cartItems
+        tr
+          td #{item.product.name}
+          td #{item.quantity}
+          td $#{item.total.toFixed(2)}
+          td
+            form(action="/cart/remove" method="POST")
+              input(type="hidden" name="productId" value=item.product.id)
+              button(type="submit") Remove
+
+    p
+      strong Total: $#{cartTotal.toFixed(2)}
+
+    form(action="/cart/clear" method="POST")
+      button(type="submit") Clear cart
+
+    br
+    a(href="/") Continue shopping

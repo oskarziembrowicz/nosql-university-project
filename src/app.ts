@@ -8,12 +8,13 @@ import { createClient } from "redis";
 import path from "path";
 
 import shopRoutes from "./routes/shop.routes";
+import cartRoutes from "./routes/cart.routes";
 
 const app = express();
 
 /* ---------------- Redis Client ---------------- */
 const redisClient = createClient({
-  url: process.env.REDIS_URL
+  url: process.env.REDIS_URL,
 });
 
 redisClient.connect().catch(console.error);
@@ -21,7 +22,7 @@ redisClient.connect().catch(console.error);
 /* ---------------- Session Store ---------------- */
 const redisStore = new RedisStore({
   client: redisClient,
-  prefix: "sess:"
+  prefix: "sess:",
 });
 
 /* ---------------- Express Config ---------------- */
@@ -36,12 +37,13 @@ app.use(
     store: redisStore,
     secret: process.env.SESSION_SECRET as string,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 
 /* ---------------- Routes ---------------- */
 app.use("/", shopRoutes);
+app.use("/cart", cartRoutes);
 
 /* ---------------- Start Server ---------------- */
 const PORT = process.env.PORT || 3000;
