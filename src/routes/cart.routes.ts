@@ -29,9 +29,14 @@ router.post(
   catchAsync(async (req: Request, res: Response) => {
     const { productId } = req.params;
     const cartKey = getCartKey(req);
+    const productCount = await redisClient.hGet(cartKey, productId);
 
-    await redisClient.hDel(cartKey, productId);
-    await redisClient.expire(cartKey, CART_TTL);
+    if (productCount === '1') {
+      await redisClient.hDel(cartKey, productId);
+      await redisClient.expire(cartKey, CART_TTL);
+    } else {
+      await redisClient.hIncrBy(cartKey, productId, -1);
+    }
 
     res.redirect('/cart');
   })
