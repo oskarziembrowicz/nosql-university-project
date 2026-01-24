@@ -27,7 +27,7 @@ block content
     p
       strong Total: $#{cartTotal.toFixed(2)}
 
-    form(action="/cart/clear" method="POST")
+    form(action="/cart/clear" method="GET")
       button(type="submit") Clear cart
 
     br
