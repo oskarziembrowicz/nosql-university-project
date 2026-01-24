@@ -16,10 +16,12 @@ router.post(
     const { productId } = req.body;
     const cartKey = getCartKey(req);
 
+    if (!productId) throw new Error('Missing productId');
+
     await redisClient.hIncrBy(cartKey, productId, 1);
     await redisClient.expire(cartKey, CART_TTL);
 
-    res.redirect('/cart');
+    res.sendStatus(200);
   })
 );
 

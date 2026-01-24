@@ -29,9 +29,13 @@ const redisStore = new RedisStore({
   prefix: 'sess:',
 });
 
+// Serve static JavaScript
+app.use(express.static(path.join(__dirname, 'public')));
 // Express Config
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'views'));
+
+app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '..', 'public')));

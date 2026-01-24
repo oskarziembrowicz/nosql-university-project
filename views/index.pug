@@ -8,9 +8,14 @@ block content
       li
         strong #{product.name}
         |  - #{product.price}zł
-        form(action="/cart" method="POST" style="display:inline")
+        form.add-to-cart-form(action="/cart" method="POST" style="display:inline" data-product-name=product.name)
           input(type="hidden" name="productId" value=product.id)
           button(type="submit") Add to cart
 
   br
   a(href="/cart") View cart
+
+  br
+  div#notification-container(style="position: fixed; top: 10px; right: 10px; z-index: 1000;")
+
+  script(src="/js/cart.js")

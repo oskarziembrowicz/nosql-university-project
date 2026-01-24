@@ -18,14 +18,14 @@ block content
         tr
           td #{item.product.name}
           td #{item.quantity}
-          td $#{item.total.toFixed(2)}
+          td #{item.total.toFixed(2)}zł
           td
             form(action=`/cart/${item.product.id}` method="POST")
               //- input(type="hidden" name="productId" value=item.product.id)
               button(type="submit") Remove
 
     p
-      strong Total: $#{cartTotal.toFixed(2)}
+      strong Total: #{cartTotal.toFixed(2)}zł
 
     form(action="/cart/clear" method="GET")
       button(type="submit") Clear cart
