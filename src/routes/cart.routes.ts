@@ -13,9 +13,7 @@ const getCartKey = (req: Request) => `cart:${req.sessionID}`;
 router.post(
   '/',
   catchAsync(async (req: Request, res: Response) => {
-    console.log('Reached add to cart');
     const { productId } = req.body;
-    console.log('Product id: ', productId);
     const cartKey = getCartKey(req);
 
     await redisClient.hIncrBy(cartKey, productId, 1);
@@ -46,8 +44,6 @@ router.get(
     const cartKey = getCartKey(req);
     const cartData = await redisClient.hGetAll(cartKey);
 
-    console.log('Cart Data: ', cartData);
-
     const cartItems = Object.entries(cartData).map(([productId, quantity]) => {
       const product = products.find((p) => p.id === productId);
       return {
@@ -56,8 +52,6 @@ router.get(
         total: product ? product.price * Number(quantity) : 0,
       };
     });
-
-    console.log('Cart Items: ', cartItems);
 
     const cartTotal = cartItems.reduce((sum, item) => sum + item.total, 0);
 

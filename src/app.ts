@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+// import './types/session';
 import express from 'express';
 import session from 'express-session';
 import RedisStore from 'connect-redis';
