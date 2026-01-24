@@ -24,7 +24,7 @@ router.post(
 );
 
 // Remove from Cart
-router.delete(
+router.post(
   '/:productId',
   catchAsync(async (req: Request, res: Response) => {
     const { productId } = req.params;
