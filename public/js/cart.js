@@ -2,7 +2,6 @@ console.log('Cart.js loaded!');
 
 document.querySelectorAll('.add-to-cart-form').forEach((form) => {
   form.addEventListener('submit', async (e) => {
-    console.log('Triggered event');
     e.preventDefault(); // prevent page reload
 
     const productName = form.dataset.productName;

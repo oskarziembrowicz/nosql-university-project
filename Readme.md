@@ -30,10 +30,11 @@ Wybrane elementy można podejrzeć w koszyku i zobaczyć jak sumuje się ich cen
 1. Sklonować repozytorium:
    `git clone link-do-repozytorium`
 2. Uruchomić terminal w folderze z projektem
-3. Uruchomić komendę: `npm run docker:up` aby uruchomić bazę danych Redis
-4. Uruchomić komendę `npm run dev` aby uruchomić aplikację
-5. Pod adresem: http://localhost:3000 można odwiedzić aplikację
-6. Pod adresem: http://localhost:5540 można odwiedzić Redis Insight
+3. Utworzyć w katalogu głównym plik `.env` i skopiować do niego zawartośc `.env.example`
+4. Uruchomić komendę: `npm run docker:up` aby uruchomić bazę danych Redis
+5. Uruchomić komendę `npm run dev` aby uruchomić aplikację
+6. Pod adresem: http://localhost:3000 można odwiedzić aplikację
+7. Pod adresem: http://localhost:5540 można odwiedzić Redis Insight
 
 ## Konfiguracja Redis Insight
 
