@@ -4,7 +4,10 @@ block content
   h1 Your Cart
 
   if cartItems.length === 0
-    p Your cart is empty.
+    if successMessage
+      p(style="color: green; font-weight: bold") #{successMessage}
+    else
+      p Your cart is empty.
     a(href="/") Back to shop
   else
     table
@@ -15,17 +18,21 @@ block content
         th Actions
 
       each item in cartItems
-        tr
-          td #{item.product.name}
-          td #{item.quantity}
-          td #{item.total.toFixed(2)}zł
-          td
-            form(action=`/cart/${item.product.id}` method="POST")
-              //- input(type="hidden" name="productId" value=item.product.id)
-              button(type="submit") Remove
+        if item.product
+          tr
+            td #{item.product.name}
+            td #{item.quantity}
+            td #{item.total.toFixed(2)}zł
+            td
+              form(action=`/cart/${item.product.id}` method="POST")
+                //- input(type="hidden" name="productId" value=item.product.id)
+                button(type="submit") Remove
 
     p
       strong Total: #{cartTotal.toFixed(2)}zł
+
+    form(action="/cart/buy" method="POST")
+      button(type="submit") Confirm Purchase
 
     form(action="/cart/clear" method="GET")
       button(type="submit") Clear cart

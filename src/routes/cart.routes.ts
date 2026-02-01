@@ -25,6 +25,34 @@ router.post(
   })
 );
 
+// Buy cart
+router.post(
+  '/buy',
+  catchAsync(async (req: Request, res: Response) => {
+    const cartKey = getCartKey(req);
+    const cartData = await redisClient.hGetAll(cartKey);
+
+    let total = 0;
+
+    for (const [productId, quantity] of Object.entries(cartData)) {
+      const product = products.find((p) => p.id === productId);
+      if (product) {
+        total += product.price * Number(quantity);
+      }
+    }
+
+    // Clear cart
+    await redisClient.del(cartKey);
+
+    // Store success message in session
+    req.session.purchaseMessage = `You bought items from the cart for ${total.toFixed(
+      2
+    )}zł`;
+
+    res.redirect('/cart');
+  })
+);
+
 // Remove from Cart
 router.post(
   '/:productId',
@@ -62,9 +90,14 @@ router.get(
 
     const cartTotal = cartItems.reduce((sum, item) => sum + item.total, 0);
 
+    // Read & clear flash message
+    const successMessage = req.session.purchaseMessage;
+    delete req.session.purchaseMessage;
+
     res.render('cart', {
       cartItems,
       cartTotal,
+      successMessage,
     });
   })
 );
