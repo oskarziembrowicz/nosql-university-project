@@ -10,6 +10,12 @@ Aplikacja to prosty sklep w którym można zakupić części do komputera. Możn
 
 Wybrane elementy można podejrzeć w koszyku i zobaczyć jak sumuje się ich cena. Można również usuwać elementy z koszyka, lub wyczyścić cały koszyk.
 
+## Technologie i rozwiązania:
+
+- **Redis** - dane w koszyku użytkownika. Redis świetnie nadaje się do przechowywania tymczasowych informacji, które wymagają szybkiego dostępu - w tym wypadku koszyk.
+- **Node.js + Express.js** - backend aplikacji. To połączenie świetnie współgra z bazą redis i pozwala w szybkim tempie przygotować gotowy backend.
+- **Pug Templates** - frontent aplikacji. Pomaga w łatwy sposób przygotowac interfejs, który ma dostęp do zmiennych aplikacji. Wystarczające dla tego projektu.
+
 ## Funkcjonalności:
 
 - Przeglądanie przedmiotów w sklepie
@@ -19,11 +25,30 @@ Wybrane elementy można podejrzeć w koszyku i zobaczyć jak sumuje się ich cen
 - Wyczyszczenie koszyka
 - Zatwierdzenie koszyka - "zakup"
 
-## Technologie i rozwiązania:
+## Przykłady użycia
 
-- **Redis** - dane w koszyku użytkownika
-- **Node.js + Express.js** - backend aplikacji
-- **Pug Templates** - frontent aplikacji
+1. Otwarcie głównej strony sklepu
+   ![Shop page](/images/image.png)
+2. Dodanie elementu do koszyka:
+   ![Add to cart](/images/image-1.png)
+3. Podgląd koszyka
+   ![Cart](/images/image-2.png)
+4. Usunięcie elementu z koszyka
+   ![Remove item](/images/image-3.png)
+5. Wyczyszczenie koszyka
+   ![Clear cart](/images/image-4.png)
+6. Zakupienie koszyka
+   ![Buy cart](/images/image-5.png)
+
+## Konstrukcja bazy danych
+
+Każdy koszyk jest przypisany do sesji użytkownika:
+`cart[id_sesji]`. Koszyk to hash mapa w postaci:
+_idPrzedmiotu_ -> _ilość_.
+Przedmioty i ich ceny przechowywane są lokalnie.
+
+**Podgląd koszyka w Redis Insight**:
+![redis insight](images/image-6.png)
 
 ## Instalacja
 
